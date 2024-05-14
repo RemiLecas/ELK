@@ -9,13 +9,14 @@ import {HttpClientModule} from "@angular/common/http";
 import { HeaderComponent } from './header/header.component';
 import { PokedexComponent } from './pokedex/pokedex.component';
 import { PokedleComponent } from './pokedle/pokedle.component';
+import {PokemonService} from "./service/pokemon.service";
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     PokedexComponent,
-    PokedleComponent
+    PokedleComponent,
   ],
   imports: [
     BrowserModule,
