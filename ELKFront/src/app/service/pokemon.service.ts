@@ -6,14 +6,15 @@ import {map, Observable} from "rxjs";
   providedIn: 'root'
 })
 export class PokemonService {
-  apiUrl: string = 'https://pokeapi.co/api/v2/pokemon';
+  apiUrl: string = '/api';
 
   constructor(private http: HttpClient) {
   }
 
   getPokemons(page: number, pageSize: number) {
     const offset = (page - 1) * pageSize;
-    return this.http.get(`${this.apiUrl}?offset=${offset}&limit=${pageSize}`);
+    console.log('getPokemons()')
+    return this.http.get(`${this.apiUrl}/pokemons`);
   }
   getPokemon(name: string) {
     return this.http.get(`${this.apiUrl}/${name}`);

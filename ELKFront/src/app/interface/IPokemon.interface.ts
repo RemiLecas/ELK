@@ -1,6 +1,6 @@
 export interface IPokemon {
   id: number;
-  name: string;
+  Name: string;
   variation?: string;
   type1: string;
   type2?: string;
@@ -16,7 +16,7 @@ export interface IPokemon {
 
 export interface IPokemonNew {
   id: number;
-  name: string;
+  Name: string;
   variation?: string;
   type1: string;
   type2: string | null;

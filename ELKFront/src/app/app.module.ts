@@ -34,15 +34,4 @@ import {PokemonService} from "./service/pokemon.service";
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(service: ApmService) {
-    const apm = service.init({
-      serviceName: 'angular-app',
-      serverUrl: 'http://localhost:8200'
-    })
-
-    apm.setUserContext({
-      'username': 'foo',
-      'id': 'bar'
-    })
-  }
 }
