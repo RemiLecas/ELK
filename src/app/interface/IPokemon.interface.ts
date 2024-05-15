@@ -1,9 +1,9 @@
 export interface IPokemon {
-  id: number;
+  Id: number;
   Name: string;
   variation?: string;
-  type1: string;
-  type2?: string;
+  Type1: string;
+  Type2?: string;
   Total?: number,
   HP?: number,
   Attack?: number,
@@ -15,11 +15,11 @@ export interface IPokemon {
 }
 
 export interface IPokemonNew {
-  id: number;
+  Id: number;
   Name: string;
   variation?: string;
-  type1: string;
-  type2: string | null;
+  Type1: string;
+  Type2: string | null;
   imageUrl: string | null;
 
 }

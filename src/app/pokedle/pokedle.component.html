@@ -2,12 +2,13 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <div class="search-container">
-      <input type="text"
+      <div>Find the good pokemon</div>
+      <input Type="text"
              [(ngModel)]="searchTerm"
              placeholder="Search Pokemon"
              formControlName="pokemonName"
              (ngModelChange)="onInputChange($event)">
-      <button type="submit" class="button" [disabled]="isFind">Submit</button>
+      <button Type="submit" class="button" [disabled]="isFind">Submit</button>
       <button *ngIf="isFind" class="button" (click)="rematch()">Rematch</button>
       <ul class="dropdown" *ngIf="dropdownOpen && filteredPokemon.length > 0 && searchTerm.trim() !== ''">
         <li *ngFor="let pokemon of filteredPokemon" (click)="selectPokemon(pokemon)">
@@ -35,36 +36,36 @@
     <div class="answer" *ngIf="pokemonSelected.length > 0">
       <div class="container" *ngFor="let pokemon of pokemonSelected.slice().reverse()">
         <div class="card">
-          <div class="card-content-image" [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')'}"></div>
+          <div class="card-content-image" [ngStyle]="{'background-image': 'url(' + pokemon?.imageUrl + ')'}"></div>
         </div>
         <div class="card">
           <div class="card-content"
-               [ngClass]="{ 'green-background': pokemon.id === pokemonToFind.id, 'red-background': pokemon.id !== pokemonToFind.id }">
-            {{ pokemon.id }}
+               [ngClass]="{ 'green-background': pokemon.Id === pokemonToFind.Id, 'red-background': pokemon.Id !== pokemonToFind.Id }">
+            {{ pokemon.Id }}
             <div>
-             <span *ngIf="pokemon.id !== pokemonToFind.id">
-              <span *ngIf="pokemon.id < pokemonToFind.id">↑</span>
-             <span *ngIf="pokemon.id > pokemonToFind.id">↓</span>
+             <span *ngIf="pokemon.Id !== pokemonToFind.Id">
+              <span *ngIf="pokemon.Id < pokemonToFind.Id">↑</span>
+             <span *ngIf="pokemon.Id > pokemonToFind.Id">↓</span>
             </span>
             </div>
           </div>
         </div>
         <div class="card">
           <div class="card-content"
-               [ngClass]="{ 'green-background': pokemon.Name === pokemonToFind.Name.toLowerCase(), 'red-background': pokemon.Name !== pokemonToFind.Name.toLowerCase() }">
+               [ngClass]="{ 'green-background': pokemon.Name.toLowerCase() === pokemonToFind.Name.toLowerCase(), 'red-background': pokemon.Name.toLowerCase() !== pokemonToFind.Name.toLowerCase() }">
             {{ pokemon.Name }}
           </div>
         </div>
         <div class="card">
           <div class="card-content"
-               [ngClass]="{ 'green-background': pokemon.type1 === pokemonToFind.type1.toLowerCase(), 'red-background': pokemon.type1 !== pokemonToFind.type1.toLowerCase() }">
-            {{ pokemon.type1 }}
+               [ngClass]="{ 'green-background': pokemon.Type1.toLowerCase() === pokemonToFind.Type1.toLowerCase(), 'red-background': pokemon.Type1.toLowerCase() !== pokemonToFind.Type1.toLowerCase() }">
+            {{ pokemon.Type1 }}
           </div>
         </div>
         <div class="card">
           <div class="card-content"
-               [ngClass]="{ 'green-background': !pokemon.type2 || pokemon.type2 === pokemonToFind.type2?.toLowerCase(), 'red-background': pokemon.type2 && pokemon.type2 !== pokemonToFind.type2?.toLowerCase() }">
-            {{ pokemon.type2 || 'No type' }}
+               [ngClass]="{ 'green-background': !pokemon.Type2 || pokemon.Type2.toLowerCase() === pokemonToFind.Type2?.toLowerCase(), 'red-background': pokemon.Type2 && pokemon.Type2.toLowerCase() !== pokemonToFind.Type2?.toLowerCase() }">
+            {{ pokemon.Type2 || 'No Type' }}
           </div>
         </div>
       </div>

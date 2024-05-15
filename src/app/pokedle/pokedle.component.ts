@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IPokemon, IPokemonNew} from "../interface/IPokemon.interface";
 import {HttpClient} from "@angular/common/http";
+import {PokemonService} from "../service/pokemon.service";
 
 @Component({
   selector: 'app-pokedle',
@@ -11,13 +12,7 @@ import {HttpClient} from "@angular/common/http";
 export class PokedleComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   allPokemon: IPokemon[] = [];
-  pokemonToFind: IPokemon = {
-    id: 10,
-    Name: 'Caterpie',
-    variation: '',
-    type1: 'Bug',
-    type2: '',
-  };
+  pokemonToFind!: IPokemon;
   isFind: boolean = false;
   filteredPokemon: IPokemon[] = [];
   searchTerm: string = '';
@@ -26,15 +21,17 @@ export class PokedleComponent implements OnInit {
   count: number = 0;
   constructor(
     private formBuilder: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private pokemonService: PokemonService
   ) { }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      pokemonName: ['', [Validators.required]]
+      pokemonName: ['', [Validators.required, Validators.minLength(3)]]
     });
 
     this.getAllPokemon();
+    this.getRandomPokemon();
   }
 
   onSubmit(): void {
@@ -47,65 +44,71 @@ export class PokedleComponent implements OnInit {
   }
 
   getAllPokemon(){
-    this.allPokemon = [
-      { id: 10, Name: 'Caterpie', type1: 'Bug' },
-      { id: 25, Name: 'Pikachu', type1: 'Electric' },
-      { id: 1, Name: 'Bulbasaur', type1: 'Grass', type2: 'Poison'},
-      { id: 132, Name: 'Ditto', type1: 'Normal', type2: ''}
-    ];
+    this.pokemonService.getPokemons()
+      .subscribe((data: any) => {
+        this.allPokemon = data;
+      });
   }
 
-  checkIfPokemonIsValid(Name: string) {
+  async checkIfPokemonIsValid(Name: string) {
     this.count++;
     this.searchTerm = Name;
     const selectedPokemon = (this.allPokemon.find(pokemon => pokemon.Name === Name));
     if (selectedPokemon) {
-      this.fetchPokemonDetails(selectedPokemon.Name);
+      await this.fetchPokemonDetails(selectedPokemon.Name);
+      if (Name === this.pokemonToFind.Name){
+        this.isFind = true;
+      }else {
+        this.isFind = false;
+      }
     }
-    if (Name === this.pokemonToFind.Name){
-      this.isFind = true;
-    }else {
-      this.isFind = false;
-    }
+
   }
 
   selectPokemon(pokemon: IPokemon): void {
     this.searchTerm = pokemon.Name;
-    this.filteredPokemon = [];
     this.dropdownOpen = false;
+    this.filteredPokemon = [];
   }
 
   onInputChange(newValue: string): void {
-    this.dropdownOpen = true;
-    this.filteredPokemon = this.allPokemon.filter(pokemon =>
-      pokemon.Name.toLowerCase().includes(newValue.toLowerCase())
-      && !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
-    );
+    if(newValue.length >= 3) {
+      this.dropdownOpen = true;
+      this.filteredPokemon = this.allPokemon.filter(pokemon =>
+        pokemon.Name.toLowerCase().includes(newValue.toLowerCase())
+        && !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
+      );
+    }else{
+      this.dropdownOpen = false;
+      this.filteredPokemon = [];
+    }
+
   }
 
   fetchPokemonDetails(pokemonName: string) {
-    this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`).subscribe(
-      (response: any) => {
-        console.log('Pokemon details:', response);
-        const selectedPokemon = {
-          id: response.id,
-          Name: response.Name,
-          type1: response.types[0].type.Name,
-          type2: response.types.length > 1 ? response.types[1].type.Name : null,
-          imageUrl: response?.sprites?.front_default
-        };
-
-        if (selectedPokemon) {
-          this.pokemonSelected.push(selectedPokemon);
-        }
-
-      },
-      (error: any) => {
-        console.error('Error fetching Pokemon details:', error);
-      }
-    );
+    this.pokemonService.getPokemon(pokemonName)
+      .subscribe((pokemonData: any) => {
+        this.pokemonService.findImage(pokemonData[0].Name).subscribe((image: any) =>{
+          pokemonData[0].imageUrl = image.sprites.front_default;
+          this.pokemonSelected.push(pokemonData[0]);
+        })
+      });
   }
   rematch() {
     window.location.reload();
+  }
+
+  getRandomPokemon() {
+    this.pokemonService.randomPokemon()
+      .subscribe((data: any) => {
+        this.pokemonToFind = data[0];
+      });
+  }
+
+  findImageInAnotherApi(name: string) {
+  this.pokemonService.findImage(name)
+      .subscribe((data: any) => {
+        return data.sprites.front_default;
+      });
   }
 }

@@ -47,11 +47,9 @@ export class PokedexComponent implements OnInit {
   }
 
   async getAllPokemon() {
-    this.pokemonService.getPokemons(this.currentPage, this.pageSize)
+    this.pokemonService.getPokemons()
       .subscribe((data: any) => {
-        this.allPokemon = data;
-        this.totalPokemons = data.count;
-        console.log('allpokemons', this.allPokemon)
+        this.allPokemon = data.result;
       });
   }
 

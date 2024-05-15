@@ -11,12 +11,28 @@ export class PokemonService {
   constructor(private http: HttpClient) {
   }
 
-  getPokemons(page: number, pageSize: number) {
-    const offset = (page - 1) * pageSize;
-    console.log('getPokemons()')
+  // Get All
+  getPokemons() {
     return this.http.get(`${this.apiUrl}/pokemons`);
   }
+
+  // Get one pokemon with exact caract
   getPokemon(name: string) {
-    return this.http.get(`${this.apiUrl}/${name}`);
+    return this.http.get<IPokemon>(`${this.apiUrl}/pokemon/${name}`);
+  }
+
+  // Get random pokemon
+  randomPokemon(){
+    return this.http.get<IPokemon>(`${this.apiUrl}/randomPokemon`)
+  }
+
+  // Get pokemon with fuzzy
+  getFuzzyPokemon(name: string){
+    return this.http.get<IPokemon>(`${this.apiUrl}/pokemonSelected/${name}`)
+  }
+
+  // Get Image on PokeApi
+  findImage(name: string){
+    return this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`)
   }
 }
