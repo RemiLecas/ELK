@@ -44,9 +44,11 @@ export class PokedexComponent implements OnInit {
       .subscribe((pokemonData: any) => {
         pokemonData.forEach((data: IPokemon) => {
           this.pokemonService.findImage(data.Name).subscribe((image: any) => {
+            data.imageUrl = image?.sprites?.front_default || ''; // If imageUrl doesn't exist, imageUrl = to empty string
             this.selectedPokemon.push(data);
           }, (error) => {
-            data.imageUrl = '';
+            console.error('Error fetching image:', error);
+            data.imageUrl = ''; // If error, imageUrl = to empty string
             this.selectedPokemon.push(data);
           });
         });
