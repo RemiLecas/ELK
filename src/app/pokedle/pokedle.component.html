@@ -64,7 +64,7 @@
         </div>
         <div class="card">
           <div class="card-content"
-               [ngClass]="{ 'green-background': (pokemon.Type2 === undefined) || pokemon.Type2?.toLowerCase() === pokemonToFind.Type2?.toLowerCase(), 'red-background': pokemon.Type2 && pokemon.Type2.toLowerCase() !== pokemonToFind.Type2?.toLowerCase() }">
+               [ngClass]="{ 'green-background': pokemon.Type2?.toLowerCase() === pokemonToFind.Type2?.toLowerCase(), 'red-background': pokemon.Type2?.toLowerCase() !== pokemonToFind.Type2?.toLowerCase() }">
             {{ pokemon.Type2 || 'No Type' }}
           </div>
         </div>
