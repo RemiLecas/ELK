@@ -19,7 +19,6 @@ export class PokedleComponent implements OnInit {
   pokemonSelected: IPokemonNew[] = [];
   dropdownOpen: boolean = false;
   count: number = 0;
-  pokemonExternAPINotExist = ['Giratina', 'Pumpkaboo', 'Gourgeist', 'Lycanroc']
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,22 +87,13 @@ export class PokedleComponent implements OnInit {
   }
 
   fetchPokemonDetails(pokemonName: string) {
-    if (!this.pokemonExternAPINotExist.includes(pokemonName)) {
-      this.pokemonService.getPokemon(pokemonName)
-        .subscribe((pokemonData: any) => {
-          this.pokemonService.findImage(pokemonData[0].Name).subscribe((image: any) => {
-            pokemonData[0].imageUrl = image.sprites.front_default;
-            this.pokemonSelected.push(pokemonData[0]);
-          })
-        });
-    } else {
-      this.pokemonService.getPokemon(pokemonName)
-        .subscribe((pokemonData: any) => {
-          this.pokemonSelected.push(pokemonData[0]);
+    this.pokemonService.getPokemon(pokemonName)
+      .subscribe((pokemonData: any) => {
+        this.pokemonSelected.push(pokemonData[0]);
+        this.pokemonService.findImage(pokemonName).subscribe((image: any) => {
+          this.pokemonSelected[this.pokemonSelected.length - 1].imageUrl = image.sprites.front_default;
         })
-
-    }
-
+      });
   }
 
   rematch() {
