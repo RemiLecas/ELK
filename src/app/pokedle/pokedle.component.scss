@@ -68,7 +68,10 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .header-card {

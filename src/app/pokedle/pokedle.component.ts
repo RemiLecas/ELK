@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {IPokemon, IPokemonNew} from "../interface/IPokemon.interface";
 import {HttpClient} from "@angular/common/http";
@@ -19,15 +19,18 @@ export class PokedleComponent implements OnInit {
   pokemonSelected: IPokemonNew[] = [];
   dropdownOpen: boolean = false;
   count: number = 0;
+  pokemonExternAPINotExist = ['Giratina', 'Pumpkaboo', 'Gourgeist', 'Lycanroc']
+
   constructor(
     private formBuilder: FormBuilder,
     private http: HttpClient,
     private pokemonService: PokemonService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
-      pokemonName: ['', [Validators.required, Validators.minLength(3)]]
+      pokemonName: ['', [Validators.required]]
     });
 
     this.getAllPokemon();
@@ -43,7 +46,7 @@ export class PokedleComponent implements OnInit {
     this.filteredPokemon = [];
   }
 
-  getAllPokemon(){
+  getAllPokemon() {
     this.pokemonService.getPokemons()
       .subscribe((data: any) => {
         this.allPokemon = data;
@@ -56,9 +59,9 @@ export class PokedleComponent implements OnInit {
     const selectedPokemon = (this.allPokemon.find(pokemon => pokemon.Name === Name));
     if (selectedPokemon) {
       await this.fetchPokemonDetails(selectedPokemon.Name);
-      if (Name === this.pokemonToFind.Name){
+      if (Name === this.pokemonToFind.Name) {
         this.isFind = true;
-      }else {
+      } else {
         this.isFind = false;
       }
     }
@@ -71,13 +74,13 @@ export class PokedleComponent implements OnInit {
   }
 
   onInputChange(newValue: string): void {
-    if(newValue.length >= 3) {
+    if (newValue.length > 0) {
       this.dropdownOpen = true;
       this.filteredPokemon = this.allPokemon.filter(pokemon =>
         pokemon.Name.toLowerCase().includes(newValue.toLowerCase())
         && !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
       );
-    }else{
+    } else {
       this.dropdownOpen = false;
       this.filteredPokemon = [];
     }
@@ -85,14 +88,24 @@ export class PokedleComponent implements OnInit {
   }
 
   fetchPokemonDetails(pokemonName: string) {
-    this.pokemonService.getPokemon(pokemonName)
-      .subscribe((pokemonData: any) => {
-        this.pokemonService.findImage(pokemonData[0].Name).subscribe((image: any) =>{
-          pokemonData[0].imageUrl = image.sprites.front_default;
+    if (!this.pokemonExternAPINotExist.includes(pokemonName)) {
+      this.pokemonService.getPokemon(pokemonName)
+        .subscribe((pokemonData: any) => {
+          this.pokemonService.findImage(pokemonData[0].Name).subscribe((image: any) => {
+            pokemonData[0].imageUrl = image.sprites.front_default;
+            this.pokemonSelected.push(pokemonData[0]);
+          })
+        });
+    } else {
+      this.pokemonService.getPokemon(pokemonName)
+        .subscribe((pokemonData: any) => {
           this.pokemonSelected.push(pokemonData[0]);
         })
-      });
+
+    }
+
   }
+
   rematch() {
     window.location.reload();
   }
@@ -104,3 +117,4 @@ export class PokedleComponent implements OnInit {
       });
   }
 }
+
