@@ -9,48 +9,49 @@
 </form>
 
 <div *ngIf="selectedPokemon">
-  {{selectedPokemon | json}}
-  <div class="pokemon-card">
+  <div class="pokemon-card" *ngFor="let pokemon of selectedPokemon">
+    <div class="pokemon-image-container" style="width: 100px; height: 100px;">
+      <div [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
+    </div>
     <div class="pokemon-header">
-      <div [ngStyle]="{'background-image': 'url(' + selectedPokemon.imageUrl + ')'}"></div>
-      <div class="pokemon-name">{{ selectedPokemon.Name }}</div>
+      <div class="pokemon-name">{{ pokemon.Name }}</div>
     </div>
     <div class="pokemon-details">
       <div class="detail-row">
         <div class="detail-label">ID:</div>
-        <div class="detail-value">{{ selectedPokemon.Id }}</div>
+        <div class="detail-value">{{ pokemon.Id }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Type 1:</div>
-        <div class="detail-value">{{ selectedPokemon.Type1 }}</div>
+        <div class="detail-value">{{ pokemon.Type1 }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Type 2:</div>
-        <div class="detail-value">{{ selectedPokemon.Type2 }}</div>
+        <div class="detail-value">{{ pokemon.Type2 }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">HP:</div>
-        <div class="detail-value">{{ selectedPokemon.HP }}</div>
+        <div class="detail-value">{{ pokemon.HP }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Attack:</div>
-        <div class="detail-value">{{ selectedPokemon.Attack }}</div>
+        <div class="detail-value">{{ pokemon.Attack }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Special Attack:</div>
-        <div class="detail-value">{{ selectedPokemon.AtkSp }}</div>
+        <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Defense:</div>
-        <div class="detail-value">{{ selectedPokemon.Def }}</div>
+        <div class="detail-value">{{ pokemon.Defense }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Special Defense:</div>
-        <div class="detail-value">{{ selectedPokemon.DefenseSp }}</div>
+        <div class="detail-value">{{ pokemon.Sp_Def }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Speed:</div>
-        <div class="detail-value">{{ selectedPokemon.Speed }}</div>
+        <div class="detail-value">{{ pokemon.Speed }}</div>
       </div>
     </div>
   </div>
@@ -84,15 +85,15 @@
       </div>
       <div class="detail-row">
         <div class="detail-label">Special Attack:</div>
-        <div class="detail-value">{{ pokemon.AtkSp }}</div>
+        <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Defense:</div>
-        <div class="detail-value">{{ pokemon.Def }}</div>
+        <div class="detail-value">{{ pokemon.Defense }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Special Defense:</div>
-        <div class="detail-value">{{ pokemon.DefenseSp }}</div>
+        <div class="detail-value">{{ pokemon.Sp_Def }}</div>
       </div>
       <div class="detail-row">
         <div class="detail-label">Speed:</div>

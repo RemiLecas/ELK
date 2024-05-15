@@ -104,11 +104,4 @@ export class PokedleComponent implements OnInit {
         this.pokemonToFind = data[0];
       });
   }
-
-  findImageInAnotherApi(name: string) {
-  this.pokemonService.findImage(name)
-      .subscribe((data: any) => {
-        return data.sprites.front_default;
-      });
-  }
 }

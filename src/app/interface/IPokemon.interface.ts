@@ -7,9 +7,9 @@ export interface IPokemon {
   Total?: number,
   HP?: number,
   Attack?: number,
-  DefenseSp?: number,
-  AtkSp?: number ,
-  Def?: number,
+  Sp_Def?: number,
+  Sp_Atk?: number ,
+  Defense?: number,
   Speed?: number,
   imageUrl?: string,
 }

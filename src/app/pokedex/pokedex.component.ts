@@ -16,7 +16,7 @@ export class PokedexComponent implements OnInit {
   currentPage: number = 1;
   pageSize: number = 20;
   totalPokemons: number = 0;
-  selectedPokemon!: IPokemon;
+  selectedPokemon: IPokemon[] = [];
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
               private pokemonService: PokemonService) {
@@ -31,7 +31,6 @@ export class PokedexComponent implements OnInit {
 
   async onSubmit() {
     if (this.form.invalid) {
-      console.log('No name found');
       return;
     } else {
       this.onSearchPokemon()
@@ -39,10 +38,15 @@ export class PokedexComponent implements OnInit {
   }
 
   onSearchPokemon() {
-    const pokemonName = this.form.value.pokemonName.toLowerCase();
+    const pokemonName = this.form.value.pokemonName;
     this.pokemonService.getPokemon(pokemonName)
-      .subscribe((data: any) => {
-        this.selectedPokemon = data.results;
+      .subscribe((pokemonData: any) => {
+        pokemonData.forEach((data: IPokemon) => {
+          this.pokemonService.findImage(data.Name).subscribe((image: any) => {
+            data.imageUrl = image.sprites.front_default;
+            this.selectedPokemon.push(data);
+          });
+        });
       });
   }
 
