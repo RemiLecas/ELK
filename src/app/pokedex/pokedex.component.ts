@@ -12,23 +12,20 @@ import {PokemonService} from "../service/pokemon.service";
 export class PokedexComponent implements OnInit {
   form: FormGroup = new FormGroup({});
   allPokemon: any;
-  filteredPokemon: IPokemon[] = [];
   currentPage: number = 1;
-  pageSize: number = 20;
-  totalPokemons: number = 0;
   selectedPokemon: IPokemon[] = [];
   pokemonOnCurrentPage: IPokemon[] = [];
+  isLoading: boolean = true;
   constructor(private formBuilder: FormBuilder,
-              private http: HttpClient,
               private pokemonService: PokemonService) {
   }
 
   async ngOnInit() {
+
     this.form = this.formBuilder.group({
       pokemonName: ['', [Validators.required]]
     });
     await this.getAllPokemon();
-
   }
 
   async onSubmit() {
@@ -41,11 +38,15 @@ export class PokedexComponent implements OnInit {
 
   onSearchPokemon() {
     const pokemonName = this.form.value.pokemonName;
-    this.pokemonService.getFuzzyPokemon(pokemonName)
+    const name = pokemonName.charAt(0).toUpperCase() + pokemonName.substring(1);
+    this.selectedPokemon = [];
+    this.pokemonService.getFuzzyPokemon(name)
       .subscribe((pokemonData: any) => {
         pokemonData.forEach((data: IPokemon) => {
           this.pokemonService.findImage(data.Name).subscribe((image: any) => {
-            data.imageUrl = image.sprites.front_default;
+            this.selectedPokemon.push(data);
+          }, (error) => {
+            data.imageUrl = '';
             this.selectedPokemon.push(data);
           });
         });
@@ -55,9 +56,10 @@ export class PokedexComponent implements OnInit {
   async getAllPokemon() {
     this.pokemonService.getPokemonsPagi()
       .subscribe((pokemonData: any) => {
-        console.log('pokemonData', pokemonData)
+        this.isLoading = true;
         this.allPokemon = pokemonData;
         this.getPokemonImage(this.allPokemon[1]);
+        this.isLoading = false;
       });
 
   }
@@ -83,5 +85,9 @@ export class PokedexComponent implements OnInit {
         this.pokemonOnCurrentPage.push(data);
       });
     });
+  }
+
+  return() {
+    this.selectedPokemon = [];
   }
 }

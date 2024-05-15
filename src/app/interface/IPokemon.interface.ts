@@ -1,7 +1,7 @@
 export interface IPokemon {
   Id: number;
   Name: string;
-  variation?: string;
+  Variation?: string;
   Type1: string;
   Type2?: string;
   Total?: number,
