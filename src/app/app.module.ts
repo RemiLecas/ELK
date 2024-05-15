@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { PokedexComponent } from './pokedex/pokedex.component';
 import { PokedleComponent } from './pokedle/pokedle.component';
 import {PokemonService} from "./service/pokemon.service";
+import { MostSearchComponent } from './most-search/most-search.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {PokemonService} from "./service/pokemon.service";
     HeaderComponent,
     PokedexComponent,
     PokedleComponent,
+    MostSearchComponent,
   ],
   imports: [
     BrowserModule,

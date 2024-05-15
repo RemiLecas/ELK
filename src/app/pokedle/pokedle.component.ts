@@ -62,7 +62,6 @@ export class PokedleComponent implements OnInit {
         this.isFind = false;
       }
     }
-
   }
 
   selectPokemon(pokemon: IPokemon): void {

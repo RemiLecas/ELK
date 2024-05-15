@@ -11,12 +11,13 @@ import {PokemonService} from "../service/pokemon.service";
 })
 export class PokedexComponent implements OnInit {
   form: FormGroup = new FormGroup({});
-  allPokemon: IPokemon[] = [];
+  allPokemon: any;
   filteredPokemon: IPokemon[] = [];
   currentPage: number = 1;
   pageSize: number = 20;
   totalPokemons: number = 0;
   selectedPokemon: IPokemon[] = [];
+  pokemonOnCurrentPage: IPokemon[] = [];
   constructor(private formBuilder: FormBuilder,
               private http: HttpClient,
               private pokemonService: PokemonService) {
@@ -27,6 +28,7 @@ export class PokedexComponent implements OnInit {
       pokemonName: ['', [Validators.required]]
     });
     await this.getAllPokemon();
+
   }
 
   async onSubmit() {
@@ -39,7 +41,7 @@ export class PokedexComponent implements OnInit {
 
   onSearchPokemon() {
     const pokemonName = this.form.value.pokemonName;
-    this.pokemonService.getPokemon(pokemonName)
+    this.pokemonService.getFuzzyPokemon(pokemonName)
       .subscribe((pokemonData: any) => {
         pokemonData.forEach((data: IPokemon) => {
           this.pokemonService.findImage(data.Name).subscribe((image: any) => {
@@ -51,27 +53,35 @@ export class PokedexComponent implements OnInit {
   }
 
   async getAllPokemon() {
-    this.pokemonService.getPokemons()
-      .subscribe((data: any) => {
-        this.allPokemon = data.result;
+    this.pokemonService.getPokemonsPagi()
+      .subscribe((pokemonData: any) => {
+        console.log('pokemonData', pokemonData)
+        this.allPokemon = pokemonData;
+        this.getPokemonImage(this.allPokemon[1]);
       });
+
   }
 
   async onNextPage() {
     this.currentPage++;
-    await this.getAllPokemon();
+    this.pokemonOnCurrentPage = [];
+    this.getPokemonImage(this.allPokemon[this.currentPage]);
   }
 
   async onPrevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
-      await this.getAllPokemon();
+      this.pokemonOnCurrentPage = [];
+      this.getPokemonImage(this.allPokemon[this.currentPage]);
     }
   }
 
-  getPageCount(): number {
-    return Math.ceil(this.totalPokemons / this.pageSize);
+  getPokemonImage(pokemons: []){
+    pokemons.forEach((data: IPokemon) => {
+      this.pokemonService.findImage(data.Name).subscribe((image: any) => {
+        data.imageUrl = image.sprites.front_default;
+        this.pokemonOnCurrentPage.push(data);
+      });
+    });
   }
-
-
 }

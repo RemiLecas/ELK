@@ -16,6 +16,11 @@ export class PokemonService {
     return this.http.get(`${this.apiUrl}/pokemons`);
   }
 
+  // Get pokemon with pagination
+  getPokemonsPagi(){
+    return this.http.get<IPokemon>(`${this.apiUrl}/pokemons/paggination`)
+  }
+
   // Get one pokemon with exact caract
   getPokemon(name: string) {
     return this.http.get<IPokemon>(`${this.apiUrl}/pokemon/${name}`);
@@ -34,5 +39,9 @@ export class PokemonService {
   // Get Image on PokeApi
   findImage(name: string){
     return this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`)
+  }
+
+  getMostSearchedPokemon() {
+    return this.http.get<any>(`${this.apiUrl}/pokemonMostSearched`)
   }
 }
