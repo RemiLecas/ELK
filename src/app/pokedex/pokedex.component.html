@@ -1,0 +1,110 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+  <div class="search-container">
+    <input type="text"
+           placeholder="Search Pokemon"
+           formControlName="pokemonName">
+    <button type="submit" class="button">Submit</button>
+  </div>
+</form>
+
+<div *ngIf="selectedPokemon">
+  {{selectedPokemon | json}}
+  <div class="pokemon-card">
+    <div class="pokemon-header">
+      <div [ngStyle]="{'background-image': 'url(' + selectedPokemon.imageUrl + ')'}"></div>
+      <div class="pokemon-name">{{ selectedPokemon.Name }}</div>
+    </div>
+    <div class="pokemon-details">
+      <div class="detail-row">
+        <div class="detail-label">ID:</div>
+        <div class="detail-value">{{ selectedPokemon.id }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 1:</div>
+        <div class="detail-value">{{ selectedPokemon.type1 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 2:</div>
+        <div class="detail-value">{{ selectedPokemon.type2 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">HP:</div>
+        <div class="detail-value">{{ selectedPokemon.HP }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Attack:</div>
+        <div class="detail-value">{{ selectedPokemon.Attack }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Attack:</div>
+        <div class="detail-value">{{ selectedPokemon.AtkSp }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Defense:</div>
+        <div class="detail-value">{{ selectedPokemon.Def }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Defense:</div>
+        <div class="detail-value">{{ selectedPokemon.DefenseSp }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Speed:</div>
+        <div class="detail-value">{{ selectedPokemon.Speed }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!selectedPokemon">
+  <div class="pokemon-card" *ngFor="let pokemon of allPokemon">
+    <div class="pokemon-header">
+      <div [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')'}">{{pokemon.imageUrl | json}}</div>
+      <div class="pokemon-name">{{ pokemon.Name }}</div>
+    </div>
+    <div class="pokemon-details">
+      <div class="detail-row">
+        <div class="detail-label">ID:</div>
+        <div class="detail-value">{{ pokemon.id }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 1:</div>
+        <div class="detail-value">{{ pokemon.type1 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 2:</div>
+        <div class="detail-value">{{ pokemon.type2 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">HP:</div>
+        <div class="detail-value">{{ pokemon.HP }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Attack:</div>
+        <div class="detail-value">{{ pokemon.Attack }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Attack:</div>
+        <div class="detail-value">{{ pokemon.AtkSp }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Defense:</div>
+        <div class="detail-value">{{ pokemon.Def }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Defense:</div>
+        <div class="detail-value">{{ pokemon.DefenseSp }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Speed:</div>
+        <div class="detail-value">{{ pokemon.Speed }}</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button (click)="onPrevPage()">Previous</button>
+    <button (click)="onNextPage()">Next</button>
+  </div>
+  <div *ngIf="totalPokemons > 0">
+    <p>Page {{ currentPage }} of {{ getPageCount() }}</p>
+  </div>
+</div>

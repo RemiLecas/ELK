@@ -1,0 +1,76 @@
+<div style="padding: 15px; text-align: center; justify-items: center">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="search-container">
+      <input type="text"
+             [(ngModel)]="searchTerm"
+             placeholder="Search Pokemon"
+             formControlName="pokemonName"
+             (ngModelChange)="onInputChange($event)">
+      <button type="submit" class="button" [disabled]="isFind">Submit</button>
+      <button *ngIf="isFind" class="button" (click)="rematch()">Rematch</button>
+      <ul class="dropdown" *ngIf="dropdownOpen && filteredPokemon.length > 0 && searchTerm.trim() !== ''">
+        <li *ngFor="let pokemon of filteredPokemon" (click)="selectPokemon(pokemon)">
+          {{ pokemon.Name }}
+        </li>
+      </ul>
+    </div>
+  </form>
+
+  <div *ngIf="isFind" style="margin-bottom: 15px">
+    GG !
+    Number of tries: {{count}}
+  </div>
+
+  <div style="text-align: center">
+    <div class="answer">
+      <div class="container">
+        <div class="card-title">Pokémon</div>
+        <div class="card-title">N°</div>
+        <div class="card-title">Name</div>
+        <div class="card-title">Type 1</div>
+        <div class="card-title">Type 2</div>
+      </div>
+    </div>
+    <div class="answer" *ngIf="pokemonSelected.length > 0">
+      <div class="container" *ngFor="let pokemon of pokemonSelected.slice().reverse()">
+        <div class="card">
+          <div class="card-content-image" [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')'}"></div>
+        </div>
+        <div class="card">
+          <div class="card-content"
+               [ngClass]="{ 'green-background': pokemon.id === pokemonToFind.id, 'red-background': pokemon.id !== pokemonToFind.id }">
+            {{ pokemon.id }}
+            <div>
+             <span *ngIf="pokemon.id !== pokemonToFind.id">
+              <span *ngIf="pokemon.id < pokemonToFind.id">↑</span>
+             <span *ngIf="pokemon.id > pokemonToFind.id">↓</span>
+            </span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content"
+               [ngClass]="{ 'green-background': pokemon.Name === pokemonToFind.Name.toLowerCase(), 'red-background': pokemon.Name !== pokemonToFind.Name.toLowerCase() }">
+            {{ pokemon.Name }}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content"
+               [ngClass]="{ 'green-background': pokemon.type1 === pokemonToFind.type1.toLowerCase(), 'red-background': pokemon.type1 !== pokemonToFind.type1.toLowerCase() }">
+            {{ pokemon.type1 }}
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-content"
+               [ngClass]="{ 'green-background': !pokemon.type2 || pokemon.type2 === pokemonToFind.type2?.toLowerCase(), 'red-background': pokemon.type2 && pokemon.type2 !== pokemonToFind.type2?.toLowerCase() }">
+            {{ pokemon.type2 || 'No type' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
