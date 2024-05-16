@@ -47,29 +47,38 @@ Lien du repos de l'API : https://github.com/KenjiLAO/ElasticSearchBack
 ## Une page pokedle. 
 
 Un pokedle est un mini jeux ou nous devons trouver un pokemon qui à était choisi aléatoirement dans l'ensemble de tout les pokémons.
+
 ![img.png](src/assets/img.png)
+
 Afin de trouver le pokémon selectionner nous devons proposer un nom de pokémon dans l'input présent ce qui nous permettra d'obtenir des indices sur le pokémon choisi.
 
 De plus, afin d'aider au mieux le joueur à trouver les nom de pokémon (puisqu'ils sont en anglais) à chaque lettres tapper dans l'input nous obtenons la liste de pokémon qui possède cette lettre.
+
 ![img.png](src/assets/img_1.png)
 
 Une fois que nous avons choisi un pokémon nous obtenons différent indice comme ceux présent ci-dessous
+
 ![img.png](src/assets/img_2.png)
 
 Lorsque nous avons réussi à trouver le bon pokémon nous obtenons une information sur le nombre d'essaie que nous avons du réalisé avant de le trouver et nous pouvons relancer un pokédle
+
 ![img.png](src/assets/img_3.png)
 
 ## /!\ Quand nous partons de la page soit en naviguant dans les autres pages de l'application soit en rafraichissant la page le pokémon sélectionner change
 
 ## Une page pokédex
 Si nous cliquons dans le header sur pokédex nous obtenons la liste compléte des pokémons présents dans les différents jeux (comprenant leurs différentes formes) avec toutes leurs statistiques et leurs types
+
 ![img.png](src/assets/img_4.png)
 
 Ici pour rechercher un pokémon nous devons tapper le nom complet du pokémon que l'on veut voir pour obtenir ses informations au lieu de parcourir la liste de pokémon.
+
 ![img.png](src/assets/img_5.png)
+
 Nous obtenons aussi les informations sur les différentes formes du pokémon selectionner puisqu'ils ont le même nom.
 
 Une fois que nous avons fais une recherche nous pouvons cliquer sur le bouton ici présents pour retourner à la liste compléte des pokémons
+
 ![img.png](src/assets/img_6.png)
 
 Ce bouton ce situe tout en bas de la page
