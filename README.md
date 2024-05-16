@@ -71,7 +71,7 @@ Si nous cliquons dans le header sur pokédex nous obtenons la liste compléte de
 
 ![img.png](src/assets/img_4.png)
 
-Ici pour rechercher un pokémon nous devons tapper le nom complet du pokémon que l'on veut voir pour obtenir ses informations au lieu de parcourir la liste de pokémon.
+Ici pour rechercher un pokémon nous devons tapper le nom complet ou approximatif du pokémon que l'on veut voir pour obtenir ses informations au lieu de parcourir la liste de pokémon.
 
 ![img.png](src/assets/img_5.png)
 
