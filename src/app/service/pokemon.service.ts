@@ -17,8 +17,8 @@ export class PokemonService {
   }
 
   // Get pokemon with pagination
-  getPokemonsPagi(){
-    return this.http.get<IPokemon>(`${this.apiUrl}/pokemons/paggination`)
+  getPokemonsPagi(page: number, size: number){
+    return this.http.get<IPokemon>(`${this.apiUrl}/pokemons/pagination/${page}/${size}`)
   }
 
   // Get one pokemon with exact caract

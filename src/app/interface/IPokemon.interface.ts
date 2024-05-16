@@ -12,6 +12,15 @@ export interface IPokemon {
   Defense?: number,
   Speed?: number,
   imageUrl?: string,
+  animated?: string,
+  imageGen1?: string,
+  imageGen2?: string,
+  imageGen3?: string,
+  imageGen4?: string,
+  imageGen5?: string,
+  imageGen6?: string,
+  imageGen7?: string,
+  imageGen8?: string,
 }
 
 export interface IPokemonNew {

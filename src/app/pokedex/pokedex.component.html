@@ -1,129 +1,134 @@
-<div *ngIf="!isLoading">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" style="margin-bottom: 15px">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" style="margin-bottom: 15px">
 
-    <div>
-      Search Any Pokemon
+  <div>
+    Search Any Pokemon
+  </div>
+  <div class="search-container">
+    <input Type="text"
+           placeholder="Search Pokemon"
+           formControlName="pokemonName">
+    <button Type="submit" class="button">Submit</button>
+  </div>
+</form>
+
+<div>
+  <button (click)="changeGeneration('gen1')">Gen 1</button>
+  <button (click)="changeGeneration('gen2')">Gen 2</button>
+  <button (click)="changeGeneration('gen3')">Gen 3</button>
+  <button (click)="changeGeneration('gen4')">Gen 4</button>
+  <button (click)="changeGeneration('gen5')">Gen 5</button>
+  <button (click)="changeGeneration('gen6')">Gen 6</button>
+  <button (click)="changeGeneration('gen7')">Gen 7</button>
+  <button (click)="changeGeneration('gen8')">Gen 8</button>
+</div>
+
+
+<div *ngIf="selectedPokemon.length !== 0">
+  <div class="pokemon-card" *ngFor="let pokemon of selectedPokemon">
+    <div class="pokemon-image-container" style="width: 100px; height: 100px;">
+      <div
+        [ngStyle]="{'background-image': 'url(' + getGenerationImage(pokemon) + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
     </div>
-    <div class="search-container">
-      <input Type="text"
-             placeholder="Search Pokemon"
-             formControlName="pokemonName">
-      <button Type="submit" class="button">Submit</button>
+    <div class="pokemon-header">
+      <div class="pokemon-name" *ngIf="pokemon.Variation">{{ pokemon.Variation }}</div>
+      <div class="pokemon-name" *ngIf="!pokemon.Variation">{{ pokemon.Name }}</div>
     </div>
-  </form>
-
-
-  <div *ngIf="selectedPokemon.length !== 0">
-    <div class="pokemon-card" *ngFor="let pokemon of selectedPokemon">
-      <div class="pokemon-image-container" style="width: 100px; height: 100px;">
-        <div
-          [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
+    <div class="pokemon-details">
+      <div class="detail-row">
+        <div class="detail-label">ID:</div>
+        <div class="detail-value">{{ pokemon.Id }}</div>
       </div>
-      <div class="pokemon-header">
-        <div class="pokemon-name" *ngIf="pokemon.Variation">{{ pokemon.Variation }}</div>
-        <div class="pokemon-name" *ngIf="!pokemon.Variation">{{ pokemon.Name }}</div>
+      <div class="detail-row">
+        <div class="detail-label">Type 1:</div>
+        <div class="detail-value">{{ pokemon.Type1 }}</div>
       </div>
-      <div class="pokemon-details">
-        <div class="detail-row">
-          <div class="detail-label">ID:</div>
-          <div class="detail-value">{{ pokemon.Id }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Type 1:</div>
-          <div class="detail-value">{{ pokemon.Type1 }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Type 2:</div>
-          <div class="detail-value">{{ pokemon.Type2 }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">HP:</div>
-          <div class="detail-value">{{ pokemon.HP }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Attack:</div>
-          <div class="detail-value">{{ pokemon.Attack }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Special Attack:</div>
-          <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Defense:</div>
-          <div class="detail-value">{{ pokemon.Defense }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Special Defense:</div>
-          <div class="detail-value">{{ pokemon.Sp_Def }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Speed:</div>
-          <div class="detail-value">{{ pokemon.Speed }}</div>
-        </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 2:</div>
+        <div class="detail-value">{{ pokemon.Type2 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">HP:</div>
+        <div class="detail-value">{{ pokemon.HP }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Attack:</div>
+        <div class="detail-value">{{ pokemon.Attack }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Attack:</div>
+        <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Defense:</div>
+        <div class="detail-value">{{ pokemon.Defense }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Defense:</div>
+        <div class="detail-value">{{ pokemon.Sp_Def }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Speed:</div>
+        <div class="detail-value">{{ pokemon.Speed }}</div>
       </div>
     </div>
   </div>
-  <div class="pokemon-grid" *ngIf="selectedPokemon.length === 0">
-    <div class="pokemon-card" *ngFor="let pokemon of pokemonOnCurrentPage">
-      <div class="pokemon-image-container" style="width: 100px; height: 100px;">
-        <div
-          [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
+</div>
+<div class="pokemon-grid" *ngIf="selectedPokemon.length === 0">
+  <div class="pokemon-card" *ngFor="let pokemon of pokemonOnCurrentPage">
+    <div class="pokemon-image-container" style="width: 100px; height: 100px;">
+      <div
+        [ngStyle]="{'background-image': 'url(' + getGenerationImage(pokemon) + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
+    </div>
+    <div class="pokemon-header">
+      <div class="pokemon-name" *ngIf="pokemon.Variation">{{ pokemon.Variation }}</div>
+      <div class="pokemon-name" *ngIf="!pokemon.Variation">{{ pokemon.Name }}</div>
+    </div>
+    <div class="pokemon-details">
+      <div class="detail-row">
+        <div class="detail-label">ID:</div>
+        <div class="detail-value">{{ pokemon.Id }}</div>
       </div>
-      <div class="pokemon-header">
-        <div class="pokemon-name" *ngIf="pokemon.Variation">{{ pokemon.Variation }}</div>
-        <div class="pokemon-name" *ngIf="!pokemon.Variation">{{ pokemon.Name }}</div>
+      <div class="detail-row">
+        <div class="detail-label">Type 1:</div>
+        <div class="detail-value">{{ pokemon.Type1 }}</div>
       </div>
-      <div class="pokemon-details">
-        <div class="detail-row">
-          <div class="detail-label">ID:</div>
-          <div class="detail-value">{{ pokemon.Id }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Type 1:</div>
-          <div class="detail-value">{{ pokemon.Type1 }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Type 2:</div>
-          <div class="detail-value">{{ pokemon.Type2 }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">HP:</div>
-          <div class="detail-value">{{ pokemon.HP }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Attack:</div>
-          <div class="detail-value">{{ pokemon.Attack }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Special Attack:</div>
-          <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Defense:</div>
-          <div class="detail-value">{{ pokemon.Defense }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Special Defense:</div>
-          <div class="detail-value">{{ pokemon.Sp_Def }}</div>
-        </div>
-        <div class="detail-row">
-          <div class="detail-label">Speed:</div>
-          <div class="detail-value">{{ pokemon.Speed }}</div>
-        </div>
+      <div class="detail-row">
+        <div class="detail-label">Type 2:</div>
+        <div class="detail-value">{{ pokemon.Type2 }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">HP:</div>
+        <div class="detail-value">{{ pokemon.HP }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Attack:</div>
+        <div class="detail-value">{{ pokemon.Attack }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Attack:</div>
+        <div class="detail-value">{{ pokemon.Sp_Atk }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Defense:</div>
+        <div class="detail-value">{{ pokemon.Defense }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Special Defense:</div>
+        <div class="detail-value">{{ pokemon.Sp_Def }}</div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label">Speed:</div>
+        <div class="detail-value">{{ pokemon.Speed }}</div>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="selectedPokemon.length === 0">
-    <button class="button" (click)="onPrevPage()">Previous</button>
-    <button class="button" (click)="onNextPage()">Next</button>
-  </div>
-
-  <div *ngIf="selectedPokemon.length !== 0">
-    <button class="button" (click)="return()">Return to All Pokemon</button>
   </div>
 </div>
 
-<div *ngIf="isLoading">
-  Loading...
+<div *ngIf="selectedPokemon.length === 0">
+  <button class="button" (click)="onPrevPage()">Previous</button>
+  <button class="button" (click)="onNextPage()">Next</button>
+</div>
+
+<div *ngIf="selectedPokemon.length !== 0">
+  <button class="button" (click)="return()">Return to All Pokemon</button>
 </div>
