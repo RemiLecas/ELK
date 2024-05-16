@@ -5,7 +5,7 @@ import {PokedexComponent} from "./pokedex/pokedex.component";
 import {MostSearchComponent} from "./most-search/most-search.component";
 
 const routes: Routes = [
-  { path: 'pokedle', component: PokedleComponent },
+  { path: '', component: PokedleComponent },
   { path: 'pokedex', component: PokedexComponent },
   { path: 'mostSearch', component: MostSearchComponent },
 ];
