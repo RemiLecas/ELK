@@ -80,4 +80,5 @@ De plus, quand nous sommes sur l'affichage avec l'ensemble des pokémons nous po
 
 ## Page des pokémons les plus recherché
 Enfin il reste une dernière page qui montre les noms des pokémons les plus rechercher dans le pokedle avec leurs nombre de recherche
+
 ![img.png](src/assets/img_8.png)
