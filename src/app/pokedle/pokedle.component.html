@@ -12,7 +12,10 @@
       <button *ngIf="isFind" class="button" (click)="rematch()">Rematch</button>
       <ul class="dropdown" *ngIf="dropdownOpen && filteredPokemon.length > 0 && searchTerm.trim() !== ''">
         <li *ngFor="let pokemon of filteredPokemon" (click)="selectPokemon(pokemon)">
-          {{ pokemon.Name }}
+          <div>
+            {{ pokemon.Name }}
+          </div>
+
         </li>
       </ul>
     </div>

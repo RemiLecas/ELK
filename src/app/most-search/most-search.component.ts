@@ -8,14 +8,26 @@ import {IPokemon} from "../interface/IPokemon.interface";
   styleUrls: ['./most-search.component.scss']
 })
 export class MostSearchComponent implements OnInit {
-  mostSerch: any;
+  mostSerch: any[] = [];
 
   constructor(private pokemonService: PokemonService) {
   }
 
   ngOnInit(): void {
-    this.pokemonService.getMostSearchedPokemon().subscribe((data: any) => {
-      this.mostSerch = data;
+    this.pokemonService.getMostSearchedPokemon().subscribe((mostSearched: any) => {
+      this.mostSerch = mostSearched;
+      this.getImage();
     });
+
+  }
+
+  getImage(){
+    this.mostSerch.forEach((pokemon: any) => {
+      this.pokemonService.findImage(pokemon.key.toLowerCase()).subscribe(
+        (image: any) => {
+          pokemon.imageUrl = image.sprites.front_default;
+          this.mostSerch.push(pokemon);
+        });
+    })
   }
 }

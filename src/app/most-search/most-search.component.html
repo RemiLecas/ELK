@@ -1,4 +1,16 @@
-<div *ngFor="let pokemon of mostSerch">
-  Name: {{pokemon.key}}
-  Count: {{pokemon.doc_count}}
+<div class="pokemon-grid">
+  <div class="pokemon-card" *ngFor="let pokemon of mostSerch">
+    <div class="pokemon-image-container" style="width: 100px; height: 100px;">
+      <div
+        [ngStyle]="{'background-image': 'url(' + pokemon.imageUrl + ')', 'width': '100%', 'height': '100%', 'background-size': 'cover'}"></div>
+    </div>
+    <div class="pokemon-header">
+      <div class="pokemon-name">{{ pokemon.key }}</div>
+    </div>
+    <div class="pokemon-details">
+      <div class="detail-row">
+        <div class="detail-label">Count: {{ pokemon.doc_count }}</div>
+      </div>
+    </div>
+  </div>
 </div>

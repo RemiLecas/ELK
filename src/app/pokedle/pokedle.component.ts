@@ -75,10 +75,16 @@ export class PokedleComponent implements OnInit {
   onInputChange(newValue: string): void {
     if (newValue.length > 0) {
       this.dropdownOpen = true;
-      this.filteredPokemon = this.allPokemon.filter(pokemon =>
-        pokemon.Name.toLowerCase().includes(newValue.toLowerCase())
-        && !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
+      this.filteredPokemon = this.filterUniquePokemon(
+        this.allPokemon.filter(pokemon =>
+          pokemon.Name.toLowerCase().includes(newValue.toLowerCase()) &&
+          !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
+        )
       );
+      // this.filteredPokemon = this.allPokemon.filter(pokemon =>
+      //   pokemon.Name.toLowerCase().includes(newValue.toLowerCase())
+      //   && !this.pokemonSelected.some(selectedPokemon => selectedPokemon.Name === pokemon.Name)
+      // );
     } else {
       this.dropdownOpen = false;
       this.filteredPokemon = [];
@@ -105,6 +111,18 @@ export class PokedleComponent implements OnInit {
       .subscribe((data: any) => {
         this.pokemonToFind = data[0];
       });
+  }
+
+  filterUniquePokemon(pokemons: IPokemon[]): IPokemon[] {
+    const uniqueNames = new Set();
+    return pokemons.filter(pokemon => {
+      if (uniqueNames.has(pokemon.Name)) {
+        return false;
+      } else {
+        uniqueNames.add(pokemon.Name);
+        return true;
+      }
+    });
   }
 }
 
